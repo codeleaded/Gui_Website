@@ -9,7 +9,11 @@ ComponentPack cg;
 ComponentML cml;
 
 void Setup(AlxWindow* w){
-    scene = Scene_New();
+    scene = Scene_New(
+        NULL,
+        (Rect){ 0.0f,0.0f,(float)w->Width,(float)w->Height },
+        BLACK
+    );
 
 	cml = ComponentML_New(
         KeywordMap_Make((KeywordRP[]){
@@ -131,7 +135,9 @@ void Setup(AlxWindow* w){
     Component_Scene_Push_R(&cg,&scene);
 }
 void Update(AlxWindow* w){
-    Scene_Update(&scene,window.Strokes,GetMouse(),GetMouseBefore());
+    Scene_Adapt(&scene,GetWidth(),GetHeight());
+	Scene_Update(&scene);
+	Scene_Input(&scene,window.Strokes,GetMouse(),GetMouseBefore());
 
 	Clear(BLACK);
 
